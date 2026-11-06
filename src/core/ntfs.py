@@ -664,7 +664,7 @@ def scan_deleted_files(
     progress: ProgressCB = None,
     max_records: int = 4_000_000,
     extract_data: bool = True,
-    max_file_size: int = 200 * 1024 * 1024,
+    max_file_size: int = 512 * 1024 * 1024,
     only_deleted: bool = True,
 ) -> List[DeletedFile]:
     def report(p: float, msg: str) -> None:

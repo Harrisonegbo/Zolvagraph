@@ -94,8 +94,10 @@ class MainWindow(ctk.CTk):
         self._menus.append(file_m)
 
         scan_m = tk.Menu(menubar, tearoff=0)
+        scan_m.add_command(label="Recover Photos & Videos…",
+                           command=fast(lambda: self._set_mode_and_scan("media")), accelerator="F5")
         scan_m.add_command(label="Recover Deleted Files (NTFS $MFT)…",
-                           command=fast(lambda: self._set_mode_and_scan("ntfs")), accelerator="F5")
+                           command=fast(lambda: self._set_mode_and_scan("ntfs")))
         scan_m.add_command(label="Recycle Bin Recovery…",
                            command=fast(lambda: self._set_mode_and_scan("recycle")))
         scan_m.add_separator()
@@ -164,7 +166,7 @@ class MainWindow(ctk.CTk):
             "<Control-R>": self._start_recover,
             "<Control-a>": lambda e: self.results.select_all() if hasattr(self, "results") else None,
             "<Control-A>": lambda e: self.results.select_all() if hasattr(self, "results") else None,
-            "<F5>": lambda e: self._set_mode_and_scan("ntfs"),
+            "<F5>": lambda e: self._set_mode_and_scan("media"),
             "<Control-F5>": lambda e: self._full_local_recovery(),
             "<Escape>": lambda e: self._stop_scan(),
         }
@@ -177,7 +179,7 @@ class MainWindow(ctk.CTk):
         self.bind("<Control-e>", lambda e: (self._hex_selected(), "break")[1])
         self.bind("<Control-r>", lambda e: (self._start_recover(), "break")[1])
         self.bind("<Control-a>", lambda e: (hasattr(self, "results") and self.results.select_all(), "break")[1])
-        self.bind("<F5>", lambda e: (self._set_mode_and_scan("ntfs"), "break")[1])
+        self.bind("<F5>", lambda e: (self._set_mode_and_scan("media"), "break")[1])
         self.bind("<Control-F5>", lambda e: (self._full_local_recovery(), "break")[1])
         self.bind("<Escape>", lambda e: (self._stop_scan(), "break")[1])
 
@@ -233,12 +235,12 @@ class MainWindow(ctk.CTk):
         # Mode toolbar
         toolbar = ctk.CTkFrame(self)
         toolbar.grid(row=1, column=0, sticky="ew", padx=10, pady=4)
-        self.mode_var = ctk.StringVar(value="ntfs")
+        self.mode_var = ctk.StringVar(value="media")
         modes = [
+            ("Photos & Videos", "media"),
             ("Deleted (NTFS)", "ntfs"),
             ("Recycle Bin", "recycle"),
             ("Deep Carve", "carve"),
-            ("Media Carve", "carve_media"),
             ("Quick Scan", "quick"),
         ]
         for i, (text, value) in enumerate(modes):
@@ -315,7 +317,7 @@ class MainWindow(ctk.CTk):
 
         self.status = StatusBar(self)
         self.status.grid(row=3, column=0, sticky="ew", padx=10, pady=(0, 8))
-        self.status.set_text("Ready – Select a local disk (File → List Drives) then Scan → Recover Deleted Files (NTFS)")
+        self.status.set_text("Ready – Select a disk, then Scan → Recover Photos & Videos (F5)")
 
     # ------------------------------------------------------------------
     # Case / settings
@@ -527,7 +529,9 @@ class MainWindow(ctk.CTk):
 
         def worker():
             try:
-                if mode == "ntfs":
+                if mode == "media":
+                    items = self.scanner.scan_media_recovery(target)
+                elif mode == "ntfs":
                     items = self.scanner.scan_ntfs_deleted(target)
                 elif mode == "recycle":
                     items = self.scanner.scan_recycle_bin()

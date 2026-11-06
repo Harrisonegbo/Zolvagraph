@@ -304,6 +304,13 @@ class RecoveryScanner:
         self._report(1.0, f"Quick scan – {len(items)} file(s)")
         return items
 
+
+    def scan_media_recovery(self, target: str) -> List[RecoverableItem]:
+        """Dedicated recovery of deleted/lost photos and videos."""
+        from .media_recovery import MediaRecoveryEngine
+        engine = MediaRecoveryEngine(self, progress=self.progress_callback)
+        return engine.recover_media(target)
+
     def list_drives(self) -> List[DriveInfo]:
         return list_physical_drives() + list_volumes()
 

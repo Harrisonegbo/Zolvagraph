@@ -67,6 +67,8 @@ SIGNATURES: List[Signature] = [
     ("TIFF", ".tif", b"II*\x00", None, 100 * 1024 * 1024, None),
     ("TIFF", ".tif", b"MM\x00*", None, 100 * 1024 * 1024, None),
     ("WebP", ".webp", b"RIFF", None, 40 * 1024 * 1024, _is_webp),
+    # HEIC/HEIF often start with ftypheic / ftypheif / ftypmif1
+    ("HEIC", ".heic", bytes([0,0,0]), None, 80 * 1024 * 1024, None),  # refined by ftyp check in carver
 
     # Video
     ("MP4", ".mp4", b"\x00\x00\x00", None, 4 * 1024 * 1024 * 1024, _is_mp4),  # refined by validator
@@ -88,7 +90,7 @@ SIGNATURES: List[Signature] = [
 
 
 def get_image_signatures() -> List[Signature]:
-    return [s for s in SIGNATURES if s[0] in ("JPEG", "PNG", "GIF", "BMP", "TIFF", "WebP")]
+    return [s for s in SIGNATURES if s[0] in ("JPEG", "PNG", "GIF", "BMP", "TIFF", "WebP", "HEIC")]
 
 
 def get_video_signatures() -> List[Signature]:

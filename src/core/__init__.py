@@ -12,6 +12,8 @@ from .memory_capture import (
 )
 
 __all__ = [
+    "MediaRecoveryEngine",
+    "filter_and_validate_media",
     "RecoveryScanner",
     "RecoverableItem",
     "FileCarver",
@@ -34,3 +36,4 @@ __all__ = [
     "DeletedFile",
     "open_ntfs_and_scan",
 ]
+from .media_recovery import MediaRecoveryEngine, filter_and_validate_media
