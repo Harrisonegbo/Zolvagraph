@@ -1,4 +1,4 @@
-# Contributing to Retrievo
+# Contributing to Zolvagraph
 
 Thank you for your interest! This is a portfolio prototype, but improvements are welcome.
 

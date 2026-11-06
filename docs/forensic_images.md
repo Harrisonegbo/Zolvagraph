@@ -1,6 +1,6 @@
 # Forensic Image Formats (E01 / AFF)
 
-Retrievo can open common forensic disk image containers so NTFS recovery and carving run against the **logical media**, not the container file bytes.
+Zolvagraph can open common forensic disk image containers so NTFS recovery and carving run against the **logical media**, not the container file bytes.
 
 ## E01 (EnCase / Expert Witness Format)
 

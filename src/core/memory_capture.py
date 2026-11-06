@@ -3,7 +3,7 @@ Memory acquisition and live-response helpers.
 
 Inspired by tools such as Magnet RAM Capture / WinPmem / DumpIt:
 
-- Full physical RAM capture requires a kernel driver. Retrievo will invoke
+- Full physical RAM capture requires a kernel driver. Zolvagraph will invoke
   an external acquisitor (WinPmem) when present on PATH or in tools/.
 - Native capabilities: process list, per-process memory dump (MiniDump),
   and a live triage snapshot (processes, network, system info).
@@ -28,7 +28,7 @@ from typing import Callable, Dict, List, Optional, Tuple
 
 from .forensics import hash_file, CaseInfo
 
-logger = logging.getLogger("Retrievo")
+logger = logging.getLogger("Zolvagraph")
 
 ProgressCB = Optional[Callable[[float, str], None]]
 
@@ -266,7 +266,7 @@ def capture_physical_ram(
     Capture physical RAM using an external tool (WinPmem recommended).
 
     Magnet RAM Capture / WinPmem use a signed kernel driver to read physical
-    memory. Pure user-mode Python cannot safely do this; Retrievo orchestrates
+    memory. Pure user-mode Python cannot safely do this; Zolvagraph orchestrates
     a trusted acquisitor when available.
     """
     if not is_windows():
@@ -276,7 +276,7 @@ def capture_physical_ram(
     if tool is None:
         raise FileNotFoundError(
             "No RAM acquisition tool found.\n\n"
-            "Place one of these in a 'tools' folder next to Retrievo:\n"
+            "Place one of these in a 'tools' folder next to Zolvagraph:\n"
             "  • winpmem_mini_x64.exe (recommended, open source)\n"
             "  • DumpIt.exe\n"
             "Then retry Memory → Capture Physical RAM.\n\n"

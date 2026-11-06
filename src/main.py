@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Retrievo – Forensic File Recovery Tool
+Zolvagraph – Forensic File Recovery Tool
 Entry point.
 """
 

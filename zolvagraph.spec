@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
-# PyInstaller spec for Retrievo – Forensic File Recovery Tool
-# Build on Windows:  pyinstaller --noconfirm retrievo.spec
+# PyInstaller spec for Zolvagraph – Forensic File Recovery Tool
+# Build on Windows:  pyinstaller --noconfirm zolvagraph.spec
 
 import sys
 from pathlib import Path
@@ -56,7 +56,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='Retrievo',
+    name='Zolvagraph',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -78,5 +78,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='Retrievo',
+    name='Zolvagraph',
 )

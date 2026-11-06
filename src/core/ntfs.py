@@ -26,7 +26,7 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import BinaryIO, Callable, Dict, List, Optional, Tuple
 
-logger = logging.getLogger("Retrievo")
+logger = logging.getLogger("Zolvagraph")
 
 ProgressCB = Optional[Callable[[float, str], None]]
 

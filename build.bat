@@ -1,13 +1,13 @@
 @echo off
 REM ============================================================
-REM  Retrievo – Build standalone Windows executable
+REM  Zolvagraph – Build standalone Windows executable
 REM  Run this on a Windows machine with Python 3.10+ installed
 REM ============================================================
 setlocal
 cd /d "%~dp0"
 
 echo.
-echo  [Retrievo] Building Windows executable...
+echo  [Zolvagraph] Building Windows executable...
 echo.
 
 if not exist "venv\" (
@@ -24,7 +24,7 @@ pip install -q pyinstaller
 
 echo.
 echo Running PyInstaller (this may take a few minutes)...
-pyinstaller --noconfirm retrievo.spec
+pyinstaller --noconfirm zolvagraph.spec
 
 if errorlevel 1 (
     echo.
@@ -36,11 +36,11 @@ if errorlevel 1 (
 echo.
 echo ============================================================
 echo  Build complete!
-echo  Executable: dist\Retrievo\Retrievo.exe
-echo  Portable folder: dist\Retrievo\
+echo  Executable: dist\Zolvagraph\Zolvagraph.exe
+echo  Portable folder: dist\Zolvagraph\
 echo ============================================================
 echo.
-echo You can zip the dist\Retrievo folder and distribute it.
-echo Users can run Retrievo.exe without installing Python.
+echo You can zip the dist\Zolvagraph folder and distribute it.
+echo Users can run Zolvagraph.exe without installing Python.
 echo.
 pause

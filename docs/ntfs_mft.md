@@ -1,6 +1,6 @@
 # Advanced NTFS $MFT Deleted-Entry Parsing
 
-Retrievo implements a multi-pass $MFT parser for deleted file recovery on NTFS volumes.
+Zolvagraph implements a multi-pass $MFT parser for deleted file recovery on NTFS volumes.
 
 ## Pipeline
 

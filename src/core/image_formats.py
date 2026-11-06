@@ -23,7 +23,7 @@ import zlib
 from pathlib import Path
 from typing import BinaryIO, Dict, List, Optional, Tuple
 
-logger = logging.getLogger("Retrievo")
+logger = logging.getLogger("Zolvagraph")
 
 # ---------------------------------------------------------------------------
 # Helpers

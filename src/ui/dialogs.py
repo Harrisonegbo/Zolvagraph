@@ -132,12 +132,12 @@ class HashResultDialog(ctk.CTkToplevel):
 class AboutDialog(ctk.CTkToplevel):
     def __init__(self, master):
         super().__init__(master)
-        self.title("About Retrievo")
+        self.title("About Zolvagraph")
         self.geometry("480x360")
         self.transient(master)
         self.grab_set()
 
-        ctk.CTkLabel(self, text="Retrievo", font=ctk.CTkFont(size=22, weight="bold")).pack(pady=(24, 4))
+        ctk.CTkLabel(self, text="Zolvagraph", font=ctk.CTkFont(size=22, weight="bold")).pack(pady=(24, 4))
         ctk.CTkLabel(self, text="Digital Forensics Suite  v1.2").pack()
         ctk.CTkLabel(
             self,

@@ -1,4 +1,4 @@
-# Architecture – Retrievo (Forensic)
+# Architecture – Zolvagraph (Forensic)
 
 ## Core Pipeline
 

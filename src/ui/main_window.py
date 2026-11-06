@@ -1,5 +1,5 @@
 """
-Retrievo main window – professional forensic recovery suite UI.
+Zolvagraph main window – professional forensic recovery suite UI.
 """
 
 from __future__ import annotations
@@ -29,21 +29,21 @@ from ui.dialogs import (
     ProcessPickerDialog,
 )
 
-logger = logging.getLogger("Retrievo")
+logger = logging.getLogger("Zolvagraph")
 
 
 class MainWindow(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        self.title("Retrievo – Digital Forensics & Deleted File Recovery")
+        self.title("Zolvagraph – Digital Forensics & Deleted File Recovery")
         self.geometry("1280x800")
         self.minsize(1024, 680)
 
         ctk.set_appearance_mode("Dark")
         ctk.set_default_color_theme("blue")
 
-        log_dir = Path.home() / "Retrievo_logs"
+        log_dir = Path.home() / "Zolvagraph_logs"
         log_dir.mkdir(exist_ok=True)
         self.scanner = RecoveryScanner(
             progress_callback=self._on_progress,
@@ -142,7 +142,7 @@ class MainWindow(ctk.CTk):
 
         help_m = tk.Menu(menubar, tearoff=0)
         help_m.add_command(label="Forensic Best Practices", command=fast(self._show_disclaimer))
-        help_m.add_command(label="About Retrievo", command=fast(lambda: AboutDialog(self)))
+        help_m.add_command(label="About Zolvagraph", command=fast(lambda: AboutDialog(self)))
         menubar.add_cascade(label="Help", menu=help_m)
         self._menus.append(help_m)
 
@@ -221,7 +221,7 @@ class MainWindow(ctk.CTk):
         case_bar = ctk.CTkFrame(self, height=36)
         case_bar.grid(row=0, column=0, sticky="ew", padx=10, pady=(8, 2))
         case_bar.grid_columnconfigure(1, weight=1)
-        ctk.CTkLabel(case_bar, text="Retrievo", font=ctk.CTkFont(size=16, weight="bold")).grid(
+        ctk.CTkLabel(case_bar, text="Zolvagraph", font=ctk.CTkFont(size=16, weight="bold")).grid(
             row=0, column=0, padx=12, pady=6
         )
         self.case_label = ctk.CTkLabel(case_bar, text="", anchor="w", text_color="gray70")
@@ -294,7 +294,7 @@ class MainWindow(ctk.CTk):
         recover_bar.grid_columnconfigure(1, weight=1)
 
         ctk.CTkLabel(recover_bar, text="Recover to:").grid(row=0, column=0, padx=8, pady=8)
-        self.dest_var = ctk.StringVar(value=str(Path.home() / "Retrievo_Recovered"))
+        self.dest_var = ctk.StringVar(value=str(Path.home() / "Zolvagraph_Recovered"))
         ctk.CTkEntry(recover_bar, textvariable=self.dest_var).grid(row=0, column=1, sticky="ew", padx=4, pady=8)
         ctk.CTkButton(recover_bar, text="Browse…", width=80, command=self._browse_dest).grid(row=0, column=2, padx=4, pady=8)
 
@@ -350,7 +350,7 @@ class MainWindow(ctk.CTk):
         if not path:
             return
         lines = [
-            "Retrievo Case Summary",
+            "Zolvagraph Case Summary",
             "=" * 40,
             f"Case ID: {self.case.case_id}",
             f"Examiner: {self.case.examiner}",
@@ -654,7 +654,7 @@ class MainWindow(ctk.CTk):
     # Memory acquisition (Magnet RAM Capture–style capabilities)
     # ------------------------------------------------------------------
     def _mem_dest(self) -> Path:
-        dest = Path(self.dest_var.get().strip() or (Path.home() / "Retrievo_Recovered"))
+        dest = Path(self.dest_var.get().strip() or (Path.home() / "Zolvagraph_Recovered"))
         dest.mkdir(parents=True, exist_ok=True)
         return dest
 
@@ -668,7 +668,7 @@ class MainWindow(ctk.CTk):
                 "RAM Acquisition Tool",
                 f"Found: {tool}\n\n"
                 "Physical RAM capture is available via Memory → Capture Physical RAM.\n"
-                "Run Retrievo as Administrator for best results.",
+                "Run Zolvagraph as Administrator for best results.",
             )
         else:
             mb.showwarning(
@@ -676,8 +676,8 @@ class MainWindow(ctk.CTk):
                 "No WinPmem / DumpIt binary was found.\n\n"
                 "To capture full physical RAM (like Magnet RAM Capture):\n"
                 "1. Download winpmem_mini_x64.exe (open-source)\n"
-                "2. Place it in a 'tools' folder next to Retrievo\n"
-                "3. Run Retrievo as Administrator\n\n"
+                "2. Place it in a 'tools' folder next to Zolvagraph\n"
+                "3. Run Zolvagraph as Administrator\n\n"
                 "Without a driver tool you can still use:\n"
                 "• Dump Process Memory\n"
                 "• Live Triage Snapshot",
@@ -798,7 +798,7 @@ class MainWindow(ctk.CTk):
     def _show_disclaimer(self) -> None:
         mb.showinfo(
             "Forensic Use Notice",
-            "Retrievo recovers deleted files from Windows PCs and laptops.\n\n"
+            "Zolvagraph recovers deleted files from Windows PCs and laptops.\n\n"
             "• Primary method: NTFS $MFT deleted-file recovery on local disks.\n"
             "• Run as Administrator for full access to C:, D:, etc.\n"
             "• Prefer forensic disk images when investigating; live disks OK for personal recovery.\n"

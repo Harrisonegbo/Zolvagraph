@@ -8,8 +8,8 @@ Place a physical memory acquisitor here for **Memory → Capture Physical RAM**:
 | `DumpIt.exe` | Comae / Magnet-style acquisitor |
 | `winpmem.exe` | Full WinPmem package |
 
-Without one of these binaries, Retrievo still supports:
+Without one of these binaries, Zolvagraph still supports:
 - Process memory dumps (MiniDump)
 - Live triage snapshots
 
-Run Retrievo **as Administrator** when capturing physical RAM.
+Run Zolvagraph **as Administrator** when capturing physical RAM.

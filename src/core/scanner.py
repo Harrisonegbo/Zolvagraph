@@ -23,7 +23,7 @@ from .disk_access import open_source, list_physical_drives, list_volumes, DriveI
 from .signatures import get_all_signatures, get_image_signatures, get_video_signatures
 from .ntfs import open_ntfs_and_scan, DeletedFile
 
-logger = logging.getLogger("Retrievo")
+logger = logging.getLogger("Zolvagraph")
 
 
 @dataclass

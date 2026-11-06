@@ -16,7 +16,7 @@ from typing import Callable, List, Optional
 from .scanner import RecoverableItem
 from .forensics import CaseInfo, hash_bytes, hash_file
 
-logger = logging.getLogger("Retrievo")
+logger = logging.getLogger("Zolvagraph")
 
 
 class RecoveryEngine:
@@ -113,7 +113,7 @@ class RecoveryEngine:
 
         payload = {
             "generated": datetime.now(timezone.utc).isoformat(),
-            "tool": "Retrievo",
+            "tool": "Zolvagraph",
             "version": "1.1",
             "count": len(rows),
             "files": rows,
