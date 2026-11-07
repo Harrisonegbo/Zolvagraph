@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zolvagraph — Digital Forensics & Deleted File Recovery</title>
+  <meta name="description" content="Zolvagraph recovers deleted photos, videos, and files from Windows disks. NTFS $MFT analysis, media carving, forensic images, and memory triage." />
+  <meta name="theme-color" content="#0D2545" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#">
+        <span class="logo-mark">Z</span>
+        <span class="logo-text">Zolvagraph</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#download">Download</a>
+        <a href="#docs">Docs</a>
+        <a href="https://github.com/Harrisonegbo/Zolvagraph" class="nav-github" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Open-source digital forensics</p>
+          <h1>Recover deleted photos, videos &amp; files from Windows disks</h1>
+          <p class="lead">
+            Zolvagraph combines NTFS $MFT deleted-entry recovery, Recycle Bin analysis,
+            high-speed media carving, and forensic image support in one desktop suite.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#download">Get Zolvagraph</a>
+            <a class="btn btn-ghost" href="https://github.com/Harrisonegbo/Zolvagraph" target="_blank" rel="noopener">View on GitHub</a>
+          </div>
+          <ul class="hero-meta">
+            <li>Windows 10 / 11</li>
+            <li>MIT License</li>
+            <li>NTFS · E01 · AFF4</li>
+          </ul>
+        </div>
+        <div class="hero-card" aria-hidden="true">
+          <div class="terminal">
+            <div class="terminal-bar">
+              <span></span><span></span><span></span>
+              <em>zolvagraph — recovery session</em>
+            </div>
+            <pre class="terminal-body"><code><span class="t-muted">$</span> zolvagraph --scan \\.\D: --mode media
+<span class="t-teal">Phase 1/3</span>  NTFS $MFT deleted media…
+<span class="t-ok">          128</span> photo/video records
+<span class="t-teal">Phase 2/3</span>  Recycle Bin…
+<span class="t-ok">           14</span> recoverable items
+<span class="t-teal">Phase 3/3</span>  Signature carve (native C)…
+<span class="t-ok">           41</span> validated media hits
+<span class="t-muted">—</span> Export with SHA-256 · case report ready</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+      <div class="container">
+        <p class="eyebrow">Capabilities</p>
+        <h2>Built for real deleted media recovery</h2>
+        <p class="section-lead">Focused on what users actually need: photos, videos, and documents lost from local Windows disks—backed by serious forensic techniques.</p>
+
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="feature-icon">01</div>
+            <h3>Photos &amp; Videos pipeline</h3>
+            <p>Dedicated three-phase recovery: NTFS deleted media, Recycle Bin, then validated image/video carving with tighter JPEG, PNG, and MP4 sizing.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">02</div>
+            <h3>NTFS $MFT recovery</h3>
+            <p>Parses deleted FILE records with update-sequence fixup, timestamps, parent paths, alternate data streams, and data-run extraction when clusters remain.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">03</div>
+            <h3>Native C scan engine</h3>
+            <p>Optional high-throughput multi-signature scanner (Boyer–Moore–Horspool) for large volumes and images, with pure-Python fallback.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">04</div>
+            <h3>Forensic images</h3>
+            <p>Open E01 (EnCase/EVF) evidence sets and AFF4 containers so analysis runs on the logical media, not the container file.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">05</div>
+            <h3>Memory &amp; live triage</h3>
+            <p>Orchestrate physical RAM capture tools, dump process memory, and collect a live triage snapshot for incident response context.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">06</div>
+            <h3>Case integrity</h3>
+            <p>Case metadata, MD5/SHA hashing on recover, CSV/JSON reports, hex viewer—and never writes to the source media.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section section-alt" id="how">
+      <div class="container">
+        <p class="eyebrow">Workflow</p>
+        <h2>Recommended recovery process</h2>
+        <ol class="steps">
+          <li>
+            <strong>Image when you can</strong>
+            <span>Prefer a disk image (dd / E01) over a live drive for important cases.</span>
+          </li>
+          <li>
+            <strong>Run as Administrator</strong>
+            <span>Required for raw volume access (<code>\\.\C:</code>) and physical disks.</span>
+          </li>
+          <li>
+            <strong>Select Photos &amp; Videos</strong>
+            <span>Or press F5—runs NTFS, Recycle Bin, and media carve in one pass.</span>
+          </li>
+          <li>
+            <strong>Triage &amp; recover</strong>
+            <span>Filter by type, preview, hash, then export only to a different drive.</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Download -->
+    <section class="section" id="download">
+      <div class="container download-box">
+        <div>
+          <p class="eyebrow">Get the software</p>
+          <h2>Download &amp; source</h2>
+          <p class="section-lead">Zolvagraph is open source under the MIT License. Build from source or grab a Windows build from GitHub Releases when published.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="https://github.com/Harrisonegbo/Zolvagraph/releases" target="_blank" rel="noopener">GitHub Releases</a>
+            <a class="btn btn-ghost" href="https://github.com/Harrisonegbo/Zolvagraph" target="_blank" rel="noopener">Source code</a>
+          </div>
+        </div>
+        <div class="code-card">
+          <p class="code-label">Clone &amp; run</p>
+          <pre><code>git clone https://github.com/Harrisonegbo/Zolvagraph.git
+cd Zolvagraph
+pip install -r requirements.txt
+python src/main.py
+
+<span class="t-muted"># Optional: build native scanner</span>
+cd native && make</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Docs -->
+    <section class="section section-alt" id="docs">
+      <div class="container">
+        <p class="eyebrow">Documentation</p>
+        <h2>Learn the internals</h2>
+        <div class="doc-grid">
+          <a class="doc-card" href="https://github.com/Harrisonegbo/Zolvagraph/blob/main/docs/architecture.md" target="_blank" rel="noopener">
+            <h3>Architecture</h3>
+            <p>UI, recovery engines, media access, and reporting layers.</p>
+          </a>
+          <a class="doc-card" href="https://github.com/Harrisonegbo/Zolvagraph/blob/main/docs/ntfs_mft.md" target="_blank" rel="noopener">
+            <h3>NTFS $MFT</h3>
+            <p>Deleted-entry parsing pipeline and confidence scoring.</p>
+          </a>
+          <a class="doc-card" href="https://github.com/Harrisonegbo/Zolvagraph/blob/main/docs/forensic_images.md" target="_blank" rel="noopener">
+            <h3>E01 / AFF4</h3>
+            <p>How forensic image containers are opened and scanned.</p>
+          </a>
+          <a class="doc-card" href="https://github.com/Harrisonegbo/Zolvagraph/blob/main/native/README.md" target="_blank" rel="noopener">
+            <h3>Native C engine</h3>
+            <p>Build and load the high-speed signature scanner.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="section" id="legal">
+      <div class="container narrow">
+        <p class="eyebrow">Responsible use</p>
+        <h2>Important notice</h2>
+        <p>
+          Zolvagraph is intended for <strong>legitimate data recovery</strong>, research, and training
+          on systems you own or are authorized to examine. It is <strong>not</strong> a NIST CFTT–certified
+          or court-validated replacement for commercial laboratory platforms used in formal investigations.
+        </p>
+        <p>
+          Always prefer working on forensic images, never write to source media, preserve hashes and case notes,
+          and follow your organization’s and jurisdiction’s legal requirements.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-mark sm">Z</span>
+        <span>Zolvagraph</span>
+      </div>
+      <p>© <span id="year"></span> Zolvagraph · MIT License · <a href="https://github.com/Harrisonegbo/Zolvagraph">GitHub</a></p>
+      <p class="footer-domain">zolvagraph.org</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
