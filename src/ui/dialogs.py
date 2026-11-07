@@ -138,7 +138,7 @@ class AboutDialog(ctk.CTkToplevel):
         self.grab_set()
 
         ctk.CTkLabel(self, text="Zolvagraph", font=ctk.CTkFont(size=22, weight="bold")).pack(pady=(24, 4))
-        ctk.CTkLabel(self, text="Digital Forensics Suite  v1.2").pack()
+        ctk.CTkLabel(self, text="Digital Forensics Suite  v1.3").pack()
         ctk.CTkLabel(
             self,
             text=(

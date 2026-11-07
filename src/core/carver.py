@@ -51,8 +51,8 @@ class FileCarver:
     - Never loads the entire source into memory.
     """
 
-    DEFAULT_CHUNK = 4 * 1024 * 1024          # 4 MB
-    OVERLAP = 64 * 1024                      # 64 KB overlap
+    DEFAULT_CHUNK = 16 * 1024 * 1024         # 16 MB (native engine friendly)
+    OVERLAP = 128 * 1024                     # 128 KB overlap
 
     def __init__(
         self,
@@ -66,6 +66,21 @@ class FileCarver:
         self.progress_callback = progress_callback
         self.max_files = max_files
         self._stop = False
+        self._native = None
+        self._sig_by_id = {}
+        try:
+            from .native_scan import NativeScanner, native_available
+            pats = []
+            for i, sig in enumerate(self.signatures):
+                # sig: name, ext, header, footer, max_size, validator
+                header = sig[2]
+                pats.append((header, i))
+                self._sig_by_id[i] = sig
+            self._native = NativeScanner(pats)
+            if not self._native.using_native:
+                self._native = None
+        except Exception:
+            self._native = None
 
     def stop(self) -> None:
         self._stop = True
@@ -147,23 +162,26 @@ class FileCarver:
 
     def _scan_buffer(self, data: bytes, base_offset: int, source: str) -> List[CarvedFile]:
         found: List[CarvedFile] = []
-        for name, ext, header, footer, max_size, validator in self.signatures:
-            start = 0
-            while True:
-                idx = data.find(header, start)
-                if idx == -1:
+
+        # ── Fast path: native multi-pattern scan ──────────────────────────
+        if self._native is not None:
+            hits = self._native.scan(data, base_offset=0, max_matches=50_000)
+            # hits are relative to `data` when base_offset passed as 0
+            for rel_off, sig_id in hits:
+                if len(found) >= self.max_files:
                     break
-                abs_off = base_offset + idx
-                remaining = data[idx:]
-                size = self._estimate_size(remaining, footer, max_size, name)
-
-                if size <= len(header):
-                    start = idx + 1
+                sig = self._sig_by_id.get(sig_id)
+                if not sig:
                     continue
-
+                name, ext, header, footer, max_size, validator = sig
+                abs_off = base_offset + rel_off
+                if rel_off < 0 or rel_off >= len(data):
+                    continue
+                remaining = data[rel_off:]
+                size = self._estimate_size(remaining, footer, max_size, name)
+                if size <= len(header):
+                    continue
                 candidate = remaining[:size]
-
-                # Confidence & validation
                 conf = 0.55
                 if footer and candidate.endswith(footer):
                     conf += 0.25
@@ -175,7 +193,6 @@ class FileCarver:
                             conf -= 0.30
                     except Exception:
                         conf -= 0.20
-
                 conf = max(0.0, min(1.0, conf))
                 if conf >= 0.45:
                     found.append(CarvedFile(
@@ -187,10 +204,47 @@ class FileCarver:
                         confidence=conf,
                         source_path=source,
                     ))
+            return found
 
-                start = idx + max(1, len(header) // 2)  # avoid tight loops on same header
-
+        # ── Pure-Python fallback ──────────────────────────────────────────
+        for name, ext, header, footer, max_size, validator in self.signatures:
+            start = 0
+            while True:
+                idx = data.find(header, start)
+                if idx == -1:
+                    break
+                abs_off = base_offset + idx
+                remaining = data[idx:]
+                size = self._estimate_size(remaining, footer, max_size, name)
+                if size <= len(header):
+                    start = idx + 1
+                    continue
+                candidate = remaining[:size]
+                conf = 0.55
+                if footer and candidate.endswith(footer):
+                    conf += 0.25
+                if validator:
+                    try:
+                        if validator(candidate):
+                            conf += 0.20
+                        else:
+                            conf -= 0.30
+                    except Exception:
+                        conf -= 0.20
+                conf = max(0.0, min(1.0, conf))
+                if conf >= 0.45:
+                    found.append(CarvedFile(
+                        name=name,
+                        extension=ext,
+                        offset=abs_off,
+                        size=size,
+                        data=candidate,
+                        confidence=conf,
+                        source_path=source,
+                    ))
+                start = idx + max(1, len(header) // 2)
         return found
+
 
     def _estimate_size(
         self,
