@@ -42,17 +42,26 @@ Professional digital forensics suite for Windows desktops and laptops. Recovers 
 
 ## Build the Windows app
 
-On a **Windows 10/11** PC with Python 3.10+:
+**Full guide:** [docs/BUILD_WINDOWS.md](docs/BUILD_WINDOWS.md)
+
+### Quick build (Windows 10/11 + Python 3.10+)
 
 ```bat
+git clone https://github.com/Harrisonegbo/Zolvagraph.git
+cd Zolvagraph
 build.bat
 ```
 
-Output: `dist\Zolvagraph\Zolvagraph.exe` (portable folder — zip and distribute).
+| Result | Path |
+|--------|------|
+| Portable app folder | `dist\Zolvagraph\` |
+| Executable | `dist\Zolvagraph\Zolvagraph.exe` |
 
-Optional speed: install MinGW/`gcc` so `build.bat` compiles the native C scan engine into `zolvagraph_scan.dll`.
+Zip the **whole** `dist\Zolvagraph\` folder to distribute. Users do not need Python.
 
-Run **Zolvagraph.exe as Administrator** for full disk access.
+Optional: install **MinGW/gcc** so `build.bat` also builds `zolvagraph_scan.dll` (faster carving).
+
+Run **Zolvagraph.exe → Run as administrator** for local disk and memory access.
 
 ## Download (Windows)
 
