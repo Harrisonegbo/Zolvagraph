@@ -1,5 +1,7 @@
 # Zolvagraph
 
+**Windows desktop app** for deleted photo, video, and file recovery.
+
 **Open-source Forensic File Recovery Tool for Windows**
 
 Professional digital forensics suite for Windows desktops and laptops. Recovers deleted files from local NTFS disks via $MFT analysis, Recycle Bin metadata, signature carving, and optional memory acquisition.
@@ -35,6 +37,22 @@ Professional digital forensics suite for Windows desktops and laptops. Recovers 
 
 
 ---
+
+
+
+## Build the Windows app
+
+On a **Windows 10/11** PC with Python 3.10+:
+
+```bat
+build.bat
+```
+
+Output: `dist\Zolvagraph\Zolvagraph.exe` (portable folder — zip and distribute).
+
+Optional speed: install MinGW/`gcc` so `build.bat` compiles the native C scan engine into `zolvagraph_scan.dll`.
+
+Run **Zolvagraph.exe as Administrator** for full disk access.
 
 ## Download (Windows)
 

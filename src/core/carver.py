@@ -51,7 +51,7 @@ class FileCarver:
     - Never loads the entire source into memory.
     """
 
-    DEFAULT_CHUNK = 16 * 1024 * 1024         # 16 MB (native engine friendly)
+    DEFAULT_CHUNK = 32 * 1024 * 1024         # 32 MB – fewer syscalls, better throughput
     OVERLAP = 128 * 1024                     # 128 KB overlap
 
     def __init__(
@@ -104,6 +104,16 @@ class FileCarver:
         self._stop = False
         offset = 0
         prev_tail = b""
+        chunk_i = 0
+        # Prefer a large readahead buffer when the stream supports it
+        try:
+            raw = getattr(stream, "raw", None) or stream
+            if hasattr(stream, "read") and not isinstance(stream, type(None)):
+                import io
+                if not isinstance(stream, io.BufferedReader) and hasattr(stream, "fileno"):
+                    stream = io.BufferedReader(stream, buffer_size=self.chunk_size)
+        except Exception:
+            pass
 
         while offset < total_size and not self._stop and len(results) < self.max_files:
             to_read = min(self.chunk_size, total_size - offset)
@@ -117,14 +127,16 @@ class FileCarver:
             found = self._scan_buffer(data, base, source_name)
             results.extend(found)
 
-            # Keep overlap for next iteration
             prev_tail = data[-self.OVERLAP:] if len(data) > self.OVERLAP else data
             offset += len(chunk)
+            chunk_i += 1
 
-            self._report(
-                offset / total_size if total_size else 0,
-                f"Carving {source_name}… {offset:,} / {total_size:,} bytes  |  {len(results)} found",
-            )
+            # Throttle UI updates – every 2 chunks or at end of range
+            if chunk_i % 2 == 0 or offset >= total_size:
+                self._report(
+                    offset / total_size if total_size else 0,
+                    f"Carving {source_name}… {offset / (1024**2):.0f}/{total_size / (1024**2):.0f} MB  |  {len(results)} found",
+                )
 
         self._report(1.0, f"Carving finished – {len(results)} candidate(s)")
         return results

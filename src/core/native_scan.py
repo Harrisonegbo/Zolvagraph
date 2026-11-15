@@ -39,6 +39,11 @@ def _candidate_lib_paths() -> List[Path]:
         Path(sys.executable).resolve().parent / "native",
         Path(sys.executable).resolve().parent,
     ]
+    # PyInstaller bundle
+    meipass = getattr(sys, "_MEIPASS", None)
+    if meipass:
+        roots.insert(0, Path(meipass))
+        roots.insert(1, Path(meipass) / "native")
     names = [
         "libzolvagraph_scan.so",
         "zolvagraph_scan.dll",
