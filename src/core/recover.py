@@ -62,7 +62,13 @@ class RecoveryEngine:
                         counter += 1
 
                 if item.data is not None:
-                    out_path.write_bytes(item.data)
+                    # Chunked write keeps peak memory lower on large videos
+                    data = item.data
+                    with open(out_path, "wb", buffering=1024 * 1024) as fh:
+                        view = memoryview(data)
+                        step = 8 * 1024 * 1024
+                        for i in range(0, len(view), step):
+                            fh.write(view[i : i + step])
                     hashes = hash_bytes(item.data) if compute_hashes else {}
                 elif item.original_path and Path(item.original_path).is_file():
                     shutil.copy2(item.original_path, out_path)

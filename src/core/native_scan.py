@@ -166,3 +166,15 @@ class NativeScanner:
 
 def native_available() -> bool:
     return load_native()
+
+
+def engine_info() -> str:
+    """Human-readable status of the scan backend."""
+    if load_native() and _lib is not None:
+        try:
+            ver = _lib.zg_engine_version()
+            v = ver.decode() if isinstance(ver, bytes) else str(ver)
+            return f"Native C engine ({v})"
+        except Exception:
+            return "Native C engine"
+    return "Pure-Python scanner"

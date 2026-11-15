@@ -17,6 +17,7 @@ import customtkinter as ctk
 from core.scanner import RecoveryScanner, RecoverableItem
 from core.recover import RecoveryEngine
 from core.disk_access import list_physical_drives, list_volumes
+from core.native_scan import engine_info
 from core.forensics import CaseInfo, hash_bytes, hash_file
 from core.memory_capture import (
     list_processes, dump_process_memory, capture_physical_ram,
@@ -36,7 +37,7 @@ class MainWindow(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        self.title("Zolvagraph – Digital Forensics & Deleted File Recovery")
+        self.title("Zolvagraph  ·  Digital Forensics & File Recovery")
         self.geometry("1280x800")
         self.minsize(1024, 680)
 
@@ -317,7 +318,7 @@ class MainWindow(ctk.CTk):
 
         self.status = StatusBar(self)
         self.status.grid(row=3, column=0, sticky="ew", padx=10, pady=(0, 8))
-        self.status.set_text("Ready – Select a disk, then Scan → Recover Photos & Videos (F5)")
+        self.status.set_text(f"Ready – {engine_info()}  ·  Select a disk, then Photos & Videos (F5)")
 
     # ------------------------------------------------------------------
     # Case / settings

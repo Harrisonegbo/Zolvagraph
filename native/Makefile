@@ -1,6 +1,5 @@
-# Zolvagraph native scan engine
 CC ?= gcc
-CFLAGS ?= -O3 -fPIC -Wall
+CFLAGS ?= -O3 -fPIC -Wall -march=native
 LIB = libzolvagraph_scan.so
 DLL = zolvagraph_scan.dll
 
